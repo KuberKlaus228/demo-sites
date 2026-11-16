@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кофейня «Полдень»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* Идея: меловая доска у кассы, только светлая. Кобальт как чернила, жёлтое солнце полудня как единственный акцент. Одна тема намеренно. */
+:root{
+  color-scheme:light;
+  --bg:#f3f5fb; --paper:#ffffff; --ink:#1b2f7a; --text:#1a1f33; --muted:#5d6480;
+  --sun:#ffb72b; --line:#d5daec; --ok:#1f8a4c; --off:#b3402f;
+  --display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --body:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.55}
+h1,h2,h3{font-family:var(--display);color:var(--ink);line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.01em}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.demo{background:var(--ink);color:#fff;font-size:14px;text-align:center;padding:6px 16px}
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;padding:18px 0}
+.logo{font-family:var(--display);font-weight:700;font-size:22px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo i{width:22px;height:22px;border-radius:50%;background:var(--sun);display:block}
+nav{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:15px}
+nav a{text-decoration:none;color:var(--muted)}
+nav a:hover{color:var(--ink)}
+.btn{display:inline-block;background:var(--ink);color:#fff;font:600 16px var(--body);text-decoration:none;padding:13px 24px;border:0;border-radius:999px;cursor:pointer}
+.btn:hover{background:#142460}
+.btn.sun{background:var(--sun);color:var(--text)}
+.btn.sun:hover{background:#ffc655}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center;padding:36px 0 64px}
+.status{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;font-weight:500;margin-bottom:22px}
+.status b{width:9px;height:9px;border-radius:50%;background:var(--ok)}
+.status.closed b{background:var(--off)}
+.hero h1{font-size:clamp(38px,6.4vw,72px)}
+.hero p{max-width:48ch;color:var(--muted);margin:22px 0 28px;font-size:18px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.sunbox{aspect-ratio:1;border-radius:28px;background:var(--ink);position:relative;overflow:hidden;display:grid;place-items:center;color:#fff}
+.sunbox::before{content:"";position:absolute;width:62%;aspect-ratio:1;border-radius:50%;background:var(--sun);top:-14%;right:-14%}
+.sunbox div{position:relative;text-align:center;padding:20px}
+.sunbox strong{font-family:var(--display);font-size:clamp(44px,7vw,76px);display:block;line-height:1}
+.sunbox span{font-size:15px;opacity:.85}
+
+section{padding:64px 0}
+.head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:10px 24px;margin-bottom:28px}
+.head h2{font-size:clamp(28px,4.4vw,44px)}
+.head p{margin:0;color:var(--muted);max-width:44ch}
+
+.order{display:grid;grid-template-columns:1.5fr 1fr;gap:28px;align-items:start}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.tab{font:500 15px var(--body);padding:9px 18px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--text);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.menu{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:6px 22px}
+.item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item div{flex:1}
+.item b{font-weight:600;display:block}
+.item small{color:var(--muted);font-size:14px}
+.item span{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.add{width:38px;height:38px;border-radius:50%;border:1px solid var(--ink);background:transparent;color:var(--ink);font-size:22px;line-height:1;cursor:pointer;flex:none}
+.add:hover{background:var(--ink);color:#fff}
+.cart{background:var(--paper);border:2px solid var(--ink);border-radius:20px;padding:22px;position:sticky;top:16px}
+.cart h3{font-size:20px;margin-bottom:12px}
+.cart ul{list-style:none;margin:0 0 14px;padding:0;font-size:15px}
+.cart li{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line);font-variant-numeric:tabular-nums}
+.cart .empty{color:var(--muted);border:0}
+.total{display:flex;justify-content:space-between;font-weight:600;font-size:19px;margin-bottom:14px;font-variant-numeric:tabular-nums}
+.cart label{display:grid;gap:6px;font-size:14px;color:var(--muted);margin-bottom:12px}
+.cart select,.cart input{font:inherit;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--text);width:100%}
+.cart .btn{width:100%}
+.note{font-size:14px;margin-top:12px;padding:12px;border-radius:12px;background:var(--bg)}
+.note[hidden]{display:none}
+.linkbtn{background:none;border:0;padding:0;color:var(--muted);font:inherit;font-size:14px;text-decoration:underline;cursor:pointer;margin-top:10px}
+
+.beans{background:var(--ink);color:#fff;border-radius:28px;padding:40px;display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.beans h2{color:#fff;font-size:clamp(26px,4vw,40px)}
+.beans p{opacity:.85;margin:14px 0 0;max-width:46ch}
+.beans dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:10px 20px;align-content:center}
+.beans dt{opacity:.65;font-size:14px}
+.beans dd{margin:0;font-weight:500}
+.tag{display:inline-block;background:var(--sun);color:var(--text);font-size:13px;font-weight:600;border-radius:999px;padding:4px 12px;margin-bottom:14px}
+
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.facts div{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:24px}
+.facts h3{font-size:19px;margin-bottom:8px}
+.facts p{margin:0;color:var(--muted);font-size:16px}
+
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.contact table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+.contact td{padding:9px 0;border-bottom:1px solid var(--line)}
+.contact td:last-child{text-align:right;font-weight:500}
+.contact .big{font-size:20px;font-weight:600;color:var(--ink)}
+.contact p{margin:0 0 14px}
+footer{padding:26px 0 40px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+
+@media (max-width:820px){
+  .hero,.order,.beans,.contact{grid-template-columns:1fr}
+  .hero{padding:20px 0 44px}
+  .sunbox{aspect-ratio:16/9}
+  .facts{grid-template-columns:1fr}
+  .cart{position:static}
+  .beans{padding:28px 22px}
+  section{padding:44px 0}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="demo">Демо-макет. Название, адрес, телефон и меню вымышлены и заменяются на данные вашей кофейни.</div>
+<header class="wrap bar">
+  <a class="logo" href="#top"><i></i>Полдень</a>
+  <nav>
+    <a href="#menu">Меню</a>
+    <a href="#beans">Зерно недели</a>
+    <a href="#contact">Часы и адрес</a>
+  </nav>
+  <a class="btn" href="#menu">Заказать к приходу</a>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <div class="status" id="status"><b></b><span>Проверяем часы работы</span></div>
+      <h1>Кофе, ради которого выходят на остановку раньше</h1>
+      <p>Варим на свежей обжарке, печём сами и помним, кто пьёт без сахара. Закажите заранее и заберите без очереди через 7 минут.</p>
+      <div class="cta">
+        <a class="btn sun" href="#menu">Собрать заказ</a>
+        <a class="btn" href="#contact">Как нас найти</a>
+      </div>
+    </div>
+    <div class="sunbox"><div><strong>7:30</strong><span>открываемся в будни,<br>первый капучино уже готов</span></div></div>
+  </div>
+
+  <section id="menu">
+    <div class="wrap">
+      <div class="head">
+        <h2>Меню и заказ навынос</h2>
+        <p>Нажмите «+», выберите время, и напиток будет ждать вас у кассы.</p>
+      </div>
+      <div class="order">
+        <div>
+          <div class="tabs" role="tablist" id="tabs"></div>
+          <div class="menu" id="list"></div>
+        </div>
+        <aside class="cart" aria-label="Ваш заказ">
+          <h3>Ваш заказ</h3>
+          <ul id="cart"></ul>
+          <div class="total"><span>Итого</span><span id="sum">0 ₽</span></div>
+          <label>Заберу через
+            <select id="when"><option>7 минут</option><option>15 минут</option><option>30 минут</option><option>1 час</option></select>
+          </label>
+          <label>Имя на стакане<input id="who" type="text" autocomplete="given-name" placeholder="Например, Аня"></label>
+          <button class="btn" id="send" type="button">Отправить заказ</button>
+          <div><button class="linkbtn" id="clear" type="button">Очистить заказ</button></div>
+          <div class="note" id="note" role="status" hidden></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="beans">
+    <div class="wrap">
+      <div class="beans">
+        <div>
+          <span class="tag">Зерно недели</span>
+          <h2>Эфиопия Гуджи, натуральная обработка</h2>
+          <p>Сладкая чашка с нотами черники и молочного шоколада. Варим в фильтре и как эспрессо. Пачка 250 г с собой стоит 890 ₽.</p>
+        </div>
+        <dl>
+          <dt>Регион</dt><dd>Гуджи, Эфиопия</dd>
+          <dt>Высота</dt><dd>1 900–2 100 м</dd>
+          <dt>Обжарка</dt><dd>Светлая, обжарено 9 дней назад</dd>
+          <dt>В чашке</dt><dd>Черника, какао, цедра</dd>
+          <dt>Лучше всего</dt><dd>Фильтр, 15 г на 250 мл, 93 °C</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap facts">
+      <div><h3>Печём с шести утра</h3><p>Круассаны и синнабоны выходят из печи к открытию. После 17:00 выпечка со скидкой 30 %.</p></div>
+      <div><h3>Своя кружка дешевле</h3><p>Приходите со своим стаканом: минус 20 ₽ к любому напитку.</p></div>
+      <div><h3>Шестой кофе в подарок</h3><p>Отмечаем покупки по номеру телефона. Карту носить не нужно.</p></div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="head"><h2>Часы и адрес</h2></div>
+      <div class="contact">
+        <table>
+          <tr><td>Понедельник – пятница</td><td>7:30–21:00</td></tr>
+          <tr><td>Суббота</td><td>9:00–22:00</td></tr>
+          <tr><td>Воскресенье</td><td>9:00–21:00</td></tr>
+        </table>
+        <div>
+          <p class="big">Симферополь, ул. Примерная, 5</p>
+          <p>Телефон и мессенджеры: <a href="tel:+79780000000">+7 (978) 000-00-00</a></p>
+          <p style="color:var(--muted)">Вход с угла, жёлтый круг над дверью. На рабочем сайте здесь стоит карта с маршрутом.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">© 2026 Кофейня «Полдень». Демо-макет сайта.</div></footer>
+
+<script>
+(function(){
+  var MENU={
+    'Кофе':[['Эспрессо','30 мл',150],['Американо','250 мл',190],['Капучино','250 / 350 мл',230],['Флэт уайт','200 мл, двойной эспрессо',260],['Латте','350 мл',260],['Раф классический','350 мл, на сливках',320],['Фильтр-кофе','зерно недели, 250 мл',220]],
+    'Не кофе':[['Какао','350 мл',250],['Матча латте','350 мл',320],['Чай листовой','чайник 500 мл',220],['Лимонад домашний','400 мл',260]],
+    'Еда':[['Круассан сливочный','печём сами',190],['Синнабон','с крем-сыром',240],['Сэндвич с индейкой','на чиабатте',350],['Сырники','3 шт., со сметаной',320],['Чизкейк','Сан-Себастьян',340]]
+  };
+  var cart=[],tabs=document.getElementById('tabs'),list=document.getElementById('list');
+  var fmt=function(n){return n.toLocaleString('ru-RU')+' ₽';};
+  function show(cat){
+    Array.prototype.forEach.call(tabs.children,function(b){b.setAttribute('aria-selected',b.textContent===cat);});
+    list.innerHTML='';
+    MENU[cat].forEach(function(it){
+      var row=document.createElement('div');row.className='item';
+      row.innerHTML='<div><b></b><small></small></div><span></span>';
+      row.querySelector('b').textContent=it[0];row.querySelector('small').textContent=it[1];row.querySelector('span').textContent=fmt(it[2]);
+      var a=document.createElement('button');a.className='add';a.type='button';a.textContent='+';a.setAttribute('aria-label','Добавить: '+it[0]);
+      a.addEventListener('click',function(){var f=cart.filter(function(c){return c.n===it[0];})[0];if(f)f.q++;else cart.push({n:it[0],p:it[2],q:1});draw();});
+      row.appendChild(a);list.appendChild(row);
+    });
+  }
+  function draw(){
+    var ul=document.getElementById('cart');ul.innerHTML='';var s=0;
+    if(!cart.length){var e=document.createElement('li');e.className='empty';e.textContent='Пока пусто. Добавьте напиток из меню.';ul.appendChild(e);}
+    cart.forEach(function(c){s+=c.p*c.q;var li=document.createElement('li');var a=document.createElement('span');a.textContent=c.n+' × '+c.q;var b=document.createElement('span');b.textContent=fmt(c.p*c.q);li.appendChild(a);li.appendChild(b);ul.appendChild(li);});
+    document.getElementById('sum').textContent=fmt(s);
+    document.getElementById('note').hidden=true;
+  }
+  Object.keys(MENU).forEach(function(cat){var b=document.createElement('button');b.className='tab';b.type='button';b.setAttribute('role','tab');b.textContent=cat;b.addEventListener('click',function(){show(cat);});tabs.appendChild(b);});
+  show('Кофе');draw();
+  document.getElementById('clear').addEventListener('click',function(){cart=[];draw();});
+  document.getElementById('send').addEventListener('click',function(){
+    var n=document.getElementById('note');n.hidden=false;
+    if(!cart.length){n.textContent='Добавьте в заказ хотя бы одну позицию.';return;}
+    var who=document.getElementById('who').value.trim()||'гость';
+    n.textContent='Заказ для «'+who+'» на '+document.getElementById('sum').textContent+' будет готов через '+document.getElementById('when').value+'. Это демо, заказ никуда не отправлен. На рабочем сайте он придёт бариста в Telegram.';
+  });
+  // открыто или закрыто сейчас по московскому времени
+  var H={0:[9,21],1:[7.5,21],2:[7.5,21],3:[7.5,21],4:[7.5,21],5:[7.5,21],6:[9,22]};
+  var now=new Date(Date.now()+ (new Date().getTimezoneOffset()+180)*60000);
+  var h=now.getHours()+now.getMinutes()/60,day=now.getDay(),t=H[day],st=document.getElementById('status');
+  var hm=function(x){return Math.floor(x)+':'+(x%1?'30':'00');};
+  if(h>=t[0]&&h<t[1]){st.querySelector('span').textContent='Открыто до '+hm(t[1]);}
+  else{st.classList.add('closed');var nx=h<t[0]?t:H[(day+1)%7];st.querySelector('span').textContent='Закрыто, откроемся в '+hm(nx[0]);}
+})();
+</script>
+</body>
+</html>

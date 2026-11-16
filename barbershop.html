@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Барбершоп «Квартал»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Идея: вывеска старой цирюльни. Тёмный фон, латунь, полоса barber pole как единственный орнамент. Одна тема намеренно. */
+:root{
+  color-scheme:dark;
+  --bg:#1b1715; --panel:#26201d; --line:#3b322d;
+  --text:#ece4d6; --muted:#a99d8c;
+  --brass:#c9a157; --red:#b43a30; --blue:#3f5f8a;
+  --display:"Bebas Neue","Arial Narrow",Impact,sans-serif;
+  --body:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.55}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.03em;line-height:1;margin:0;text-wrap:balance}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.pole{height:10px;background:repeating-linear-gradient(-45deg,var(--red) 0 14px,var(--text) 14px 28px,var(--blue) 28px 42px,var(--text) 42px 56px)}
+.demo{background:var(--brass);color:#1b1715;font-size:14px;text-align:center;padding:6px 16px}
+header{border-bottom:1px solid var(--line)}
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding:16px 0}
+.logo{font-family:var(--display);font-size:30px;letter-spacing:.08em;text-decoration:none}
+.logo span{color:var(--brass)}
+nav{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:15px}
+nav a{text-decoration:none;color:var(--muted)}
+nav a:hover{color:var(--text)}
+.btn{display:inline-block;background:var(--brass);color:#1b1715;font-weight:600;text-decoration:none;padding:13px 26px;border:0;border-radius:2px;font-family:var(--body);font-size:16px;cursor:pointer}
+.btn:hover{background:#dab56a}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--brass);background:transparent}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+
+.hero{padding:64px 0 56px;display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:end}
+.eyebrow{color:var(--brass);font-size:14px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:clamp(64px,11vw,132px)}
+.hero h1 em{font-style:normal;color:var(--brass)}
+.hero p{max-width:46ch;color:var(--muted);margin:22px 0 28px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.card-today{background:var(--panel);border:1px solid var(--line);padding:24px}
+.card-today h2{font-size:26px;color:var(--brass);margin-bottom:14px}
+.slots{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 18px}
+.slot{font-variant-numeric:tabular-nums;border:1px solid var(--line);padding:7px 12px;font-size:15px;background:transparent;color:var(--text);cursor:pointer;font-family:var(--body);border-radius:2px}
+.slot:hover{border-color:var(--brass);color:var(--brass)}
+.small{font-size:14px;color:var(--muted)}
+
+section{padding:64px 0;border-top:1px solid var(--line)}
+.head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px;margin-bottom:32px}
+.head h2{font-size:clamp(40px,6vw,64px)}
+.head p{margin:0;color:var(--muted);max-width:44ch}
+
+.prices{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}
+.row{display:flex;align-items:baseline;gap:10px;padding:14px 0;border-bottom:1px solid var(--line)}
+.row b{font-weight:500}
+.row i{flex:1;border-bottom:1px dotted var(--muted);transform:translateY(-4px);opacity:.5}
+.row span{font-variant-numeric:tabular-nums;color:var(--brass);font-weight:600;white-space:nowrap}
+.row small{display:block;color:var(--muted);font-size:14px;font-weight:400}
+
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.m{background:var(--panel);border:1px solid var(--line);padding:22px}
+.ph{aspect-ratio:4/3;background:repeating-linear-gradient(135deg,#2e2723 0 12px,#2a231f 12px 24px);display:grid;place-items:center;margin-bottom:18px;color:var(--muted);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.m h3{font-size:30px}
+.m .role{color:var(--brass);font-size:14px;margin:4px 0 10px}
+.m p{margin:0;color:var(--muted);font-size:15px}
+
+.why{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.why div{border-top:2px solid var(--brass);padding-top:14px}
+.why strong{font-family:var(--display);font-size:44px;font-weight:400;display:block;line-height:1}
+.why span{color:var(--muted);font-size:15px}
+
+.book{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{display:grid;gap:6px;font-size:14px;color:var(--muted)}
+label.full{grid-column:1/-1}
+input,select{font:inherit;color:var(--text);background:var(--panel);border:1px solid var(--line);padding:12px;border-radius:2px;width:100%}
+form .btn{grid-column:1/-1}
+.done{grid-column:1/-1;border:1px solid var(--brass);padding:14px;font-size:15px}
+.done[hidden]{display:none}
+.info dt{color:var(--muted);font-size:14px;margin-top:18px}
+.info dd{margin:2px 0 0;font-size:19px}
+.info dl{margin:0}
+.hours{font-variant-numeric:tabular-nums}
+
+footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--muted);font-size:14px}
+footer .bar{padding:0}
+
+@media (max-width:820px){
+  .hero,.book{grid-template-columns:1fr;gap:32px}
+  .hero{padding:44px 0}
+  .prices{grid-template-columns:1fr}
+  .team{grid-template-columns:1fr}
+  .why{grid-template-columns:1fr 1fr}
+  section{padding:48px 0}
+}
+@media (max-width:440px){form{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="demo">Демо-макет. Название, адрес, телефон и цены вымышлены и заменяются на данные вашего барбершопа.</div>
+<div class="pole"></div>
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#top">КВАР<span>ТАЛ</span></a>
+    <nav>
+      <a href="#prices">Услуги и цены</a>
+      <a href="#team">Мастера</a>
+      <a href="#book">Запись</a>
+      <a href="#book">Контакты</a>
+    </nav>
+    <a class="btn" href="#book">Записаться</a>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <div class="eyebrow">Барбершоп · Симферополь · с 2019 года</div>
+      <h1>Стрижка,<br>которая <em>держит форму</em></h1>
+      <p>Три мастера, одно кресло на человека и час времени без спешки. Стрижём так, чтобы через три недели голова выглядела аккуратно, а не «пора было вчера».</p>
+      <div class="cta">
+        <a class="btn" href="#book">Выбрать время</a>
+        <a class="btn ghost" href="#prices">Посмотреть цены</a>
+      </div>
+    </div>
+    <aside class="card-today">
+      <h2>Свободно сегодня</h2>
+      <div class="small">Нажмите на время, и оно подставится в форму записи.</div>
+      <div class="slots" id="slots"></div>
+      <div class="small">Ежедневно 10:00–21:00 · ул. Примерная, 12</div>
+    </aside>
+  </div>
+
+  <section id="prices">
+    <div class="wrap">
+      <div class="head">
+        <h2>Услуги и цены</h2>
+        <p>Цена окончательная. Мытьё головы, укладка и напиток входят в любую стрижку.</p>
+      </div>
+      <div class="prices">
+        <div>
+          <div class="row"><b>Мужская стрижка<small>60 минут</small></b><i></i><span>1 400 ₽</span></div>
+          <div class="row"><b>Стрижка машинкой<small>30 минут, одна или две насадки</small></b><i></i><span>800 ₽</span></div>
+          <div class="row"><b>Стрижка + борода<small>90 минут</small></b><i></i><span>2 100 ₽</span></div>
+          <div class="row"><b>Детская стрижка<small>до 12 лет, 45 минут</small></b><i></i><span>1 000 ₽</span></div>
+        </div>
+        <div>
+          <div class="row"><b>Моделирование бороды<small>30 минут</small></b><i></i><span>900 ₽</span></div>
+          <div class="row"><b>Бритьё опасной бритвой<small>с горячим компрессом, 40 минут</small></b><i></i><span>1 200 ₽</span></div>
+          <div class="row"><b>Камуфляж седины<small>20 минут</small></b><i></i><span>1 000 ₽</span></div>
+          <div class="row"><b>Отец + сын<small>две стрижки подряд</small></b><i></i><span>2 100 ₽</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="team">
+    <div class="wrap">
+      <div class="head">
+        <h2>Мастера</h2>
+        <p>У каждого своя сильная сторона. Напишите в форме, что хотите получить, и администратор подскажет, к кому идти.</p>
+      </div>
+      <div class="team">
+        <div class="m"><div class="ph">Фото мастера</div><h3>Артём</h3><div class="role">Старший барбер · 8 лет</div><p>Классика и плавные переходы. К нему идут перед свадьбой и собеседованием.</p></div>
+        <div class="m"><div class="ph">Фото мастера</div><h3>Руслан</h3><div class="role">Барбер · 5 лет</div><p>Бороды любой длины и бритьё опасной бритвой. Подберёт форму под овал лица.</p></div>
+        <div class="m"><div class="ph">Фото мастера</div><h3>Давид</h3><div class="role">Барбер · 3 года</div><p>Кроп, фейд и короткие формы. Легко находит общий язык с детьми.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="why">
+        <div><strong>60 минут</strong><span>на одну стрижку. Не сажаем двоих на одно время.</span></div>
+        <div><strong>7 дней</strong><span>на бесплатную коррекцию, если что-то не устроило.</span></div>
+        <div><strong>10:00–21:00</strong><span>без выходных, запись на вечер после работы.</span></div>
+        <div><strong>5 минут</strong><span>пешком от центра, парковка во дворе.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="book">
+    <div class="wrap book">
+      <div>
+        <div class="head"><h2>Запись</h2></div>
+        <form id="f" novalidate>
+          <label>Услуга
+            <select id="service">
+              <option>Мужская стрижка, 1 400 ₽</option>
+              <option>Стрижка + борода, 2 100 ₽</option>
+              <option>Моделирование бороды, 900 ₽</option>
+              <option>Стрижка машинкой, 800 ₽</option>
+              <option>Детская стрижка, 1 000 ₽</option>
+              <option>Бритьё опасной бритвой, 1 200 ₽</option>
+            </select>
+          </label>
+          <label>Мастер
+            <select id="master"><option>Любой свободный</option><option>Артём</option><option>Руслан</option><option>Давид</option></select>
+          </label>
+          <label>Дата<input type="date" id="date"></label>
+          <label>Время
+            <select id="time"></select>
+          </label>
+          <label>Имя<input type="text" id="name" autocomplete="given-name" placeholder="Как к вам обращаться"></label>
+          <label>Телефон<input type="tel" id="phone" autocomplete="tel" placeholder="+7 (978) ___-__-__"></label>
+          <button class="btn" type="submit">Записаться</button>
+          <div class="done" id="done" role="status" hidden></div>
+        </form>
+      </div>
+      <div class="info">
+        <div class="head"><h2>Контакты</h2></div>
+        <dl>
+          <dt>Адрес</dt><dd>Симферополь, ул. Примерная, 12</dd>
+          <dt>Телефон и мессенджеры</dt><dd><a href="tel:+79780000000">+7 (978) 000-00-00</a></dd>
+          <dt>Часы работы</dt><dd class="hours">Ежедневно 10:00–21:00</dd>
+          <dt>Как добраться</dt><dd style="font-size:16px;color:var(--muted)">Вход со двора, вывеска с красно-синим столбом. Здесь на рабочем сайте стоит карта с маршрутом.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap bar">
+    <div>© 2026 Барбершоп «Квартал». Демо-макет сайта.</div>
+    <div>Симферополь</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var times=['10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00'];
+  var sel=document.getElementById('time');
+  times.forEach(function(t){var o=document.createElement('option');o.textContent=t;sel.appendChild(o);});
+  var d=new Date();var iso=function(x){return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');};
+  var date=document.getElementById('date');date.value=iso(d);date.min=iso(d);
+  // свободные окна «на сегодня»: примерные, для демонстрации
+  var free=['12:00','14:00','15:00','18:00','20:00'];
+  var box=document.getElementById('slots');
+  free.forEach(function(t){
+    var b=document.createElement('button');b.type='button';b.className='slot';b.textContent=t;
+    b.addEventListener('click',function(){sel.value=t;date.value=iso(new Date());document.getElementById('book').scrollIntoView();document.getElementById('name').focus({preventScroll:true});});
+    box.appendChild(b);
+  });
+  document.getElementById('f').addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=document.getElementById('name').value.trim(),phone=document.getElementById('phone').value.trim(),done=document.getElementById('done');
+    done.hidden=false;
+    if(!name||phone.replace(/\D/g,'').length<10){done.textContent='Укажите имя и телефон полностью, чтобы администратор мог подтвердить запись.';return;}
+    done.textContent=name+', заявка составлена: '+document.getElementById('service').value+', '+date.value.split('-').reverse().join('.')+' в '+sel.value+', мастер: '+document.getElementById('master').value.toLowerCase()+'. Это демо, заявка никуда не отправлена. На рабочем сайте она придёт администратору в Telegram или WhatsApp.';
+  });
+})();
+</script>
+</body>
+</html>
